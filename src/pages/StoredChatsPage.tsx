@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { MessageSquareDashed } from 'lucide-react';
 
 // StoredChatsPage displays a list of stored chat rooms
 // It allows users to view, select, and delete chat rooms
@@ -122,8 +123,9 @@ const StoredChatsPage = () => {
 
 
       {!hasChats ? (
-        <div className="p-6 text-center text-zinc-400 space-y-4">
-          <p>No chats yet.</p>
+        <div className="p-6 text-center text-zinc-400 space-y-4 flex flex-col items-center justify-center">
+          <MessageSquareDashed size={64} className="text-zinc-500 mb-2" />
+          <p className="text-sm">No chats yet.</p>
         </div>
       ) : (
         <>
@@ -159,7 +161,7 @@ const StoredChatsPage = () => {
                         <div className="font-medium text-white truncate">{chat.roomId}</div>
                         <div className="text-xs text-gray-400">{formatTime(chat.timestamp)}</div>
                       </div>
-                      <div className="text-sm text-gray-400 truncate">{chat.lastMessage}</div>
+                      <div className="text-sm text-gray-400 max-w-[17rem] truncate">{chat.lastMessage}</div>
                     </div>
                   </li>
                 );

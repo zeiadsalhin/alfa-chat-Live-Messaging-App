@@ -26,9 +26,14 @@ const ChatInput = ({
   // Effect to enable/disable send button based on input value
   useEffect(() => {
     setCanSend(value.trim().length > 0);
+    
+    // Reset height when value becomes empty
+    if (value === '' && inputRef.current) {
+      inputRef.current.style.height = 'auto';
+    }
   }, [value]);
 
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   // Focus the input field when the component mounts
   useEffect(() => {
@@ -36,10 +41,12 @@ const ChatInput = ({
   }, []);
 
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    onChange(val);
-    socket.emit('typing', { roomId, userId });
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const el = e.target;
+  el.style.height = 'auto';
+  el.style.height = `${el.scrollHeight}px`;
+  onChange(el.value);
+  socket.emit('typing', { roomId, userId });
   };
 
   return (
@@ -49,14 +56,21 @@ const ChatInput = ({
         😊
       </button>
 
-      <input
-        ref={inputRef}
-        className="flex-1 bg-transparent text-white placeholder-gray-400 outline-none px-2 py-2"
-        placeholder="Type a message"
-        value={value}
-        onChange={handleInputChange}
-        onKeyDown={(e) => e.key === 'Enter' && canSend && onSend()}
-      />
+      <textarea
+          ref={inputRef}
+          className="flex-1 bg-transparent text-white placeholder-gray-400 outline-none px-2 py-2 resize-none overflow-y-auto max-h-48"
+          placeholder="Type a message"
+          value={value}
+          onChange={handleInputChange}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault(); // prevent newline
+              if (canSend) onSend();
+            }
+          }}
+          rows={1}
+        />
+
 
       {/* Right side button: mic or send */}
       {canSend ? (

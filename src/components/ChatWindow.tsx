@@ -128,7 +128,7 @@ useEffect(() => {
   return (
     <div
       ref={containerRef}
-      className="flex-1 overflow-y-auto px-4 py-2 bg-zinc-900 rounded border border-zinc-700 space-y-2"
+      className="flex-1 overflow-y-auto max-h-[calc(100svh-17.5vh)] md:min-h-[91dvh] px-4 py-2 bg-zinc-900 rounded border border-zinc-700 space-y-2"
     >
       {/* Render messages */}
       {/* use a map to iterate over messages and render each one */}
