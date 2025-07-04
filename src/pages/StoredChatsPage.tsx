@@ -98,7 +98,7 @@ const StoredChatsPage = () => {
 
 
   return (
-    <div className="h-[calc(100vh-0rem)] bg-zinc-900 text-white">
+    <div className="min-h-[calc(100svh-10vh)] md:min-h-[91dvh] bg-zinc-900 text-white">
       {/* Header */}
       <div className="p-4 border-b border-zinc-800 bg-zinc-900 sticky top-0 z-10 flex justify-between items-center">
         <h1 className="text-2xl font-semibold">Chats</h1>

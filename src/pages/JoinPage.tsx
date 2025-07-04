@@ -5,7 +5,7 @@ import JoinRoom from '../components/JoinRoom';
 // It is used to join an existing chat room or create a new one
 const JoinPage = () => {
   return (
-    <div className="h-screen bg-zinc-900 text-white flex items-center justify-center p-4">
+    <div className="min-h-[calc(100svh-10vh)] md:min-h-[91dvh] bg-zinc-900 text-white flex items-center justify-center p-4">
       <div className="max-w-md w-full">
         <JoinRoom />
       </div>

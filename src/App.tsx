@@ -57,7 +57,9 @@ function App() {
       {/* Main app container with top padding when banner is shown */}
       <div
         className={`relative overflow-y-auto flex flex-col ${
-          !isChatPage ? 'h-[calc(100vh-4.1rem)]' : 'h-screen'
+          !isChatPage
+            ? 'min-h-[calc(100svh-10vh)] md:min-h-[90dvh]'
+            : 'min-h-[calc(100lvh-50vh)] md:min-h-[90dvh]'
         } ${!isServerOnline ? 'pt-[2.3rem]' : ''}`}
       >
         <Routes>

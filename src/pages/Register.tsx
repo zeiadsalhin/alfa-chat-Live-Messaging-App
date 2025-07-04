@@ -32,7 +32,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="relative flex h-screen items-center justify-center px-4 overflow-hidden">
+    <div className="relative flex min-h-[calc(100svh-10vh)] md:min-h-[91dvh] items-center justify-center px-4 overflow-hidden">
       {/* Animated logo background */}
       <div
         className="absolute inset-0 bg-repeat opacity-[0.03] z-0 logo-bg"

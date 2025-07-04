@@ -253,7 +253,7 @@ const ChatRoom = ({ isServerOnline = true }: { isServerOnline?: boolean }) => {
   };
 
   return (
-    <div className={`flex flex-col ${isServerOnline ? 'h-screen' : 'h-[calc(100vh-2.5rem)]'} py-2 gap-2 bg-gray-900a text-white`}>
+    <div className={`flex flex-col ${isServerOnline ? 'min-h-[calc(100svh-0vh)] md:min-h-[100dvh]' : 'min-h-[calc(100svh-5vh)] md:min-h-[96dvh]'} py-2 gap-2 bg-gray-900a text-white`}>
       <ChatHeader
         roomId={roomId!}
         onBack={handleBack}
