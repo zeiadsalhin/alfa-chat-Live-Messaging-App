@@ -6,6 +6,14 @@ A modern, fast, and secure chat application built with **React**, **Socket.IO**,
 
 ---
 
+## 🌍 Live Demo
+
+[🔗 Visit Here](https://alfa-chat.netlify.app) <!-- Replace this with your actual deployed URL -->
+
+Note: Please wait 10s if server connection warning appeared for first time (due to render.com init), Thank you
+
+---
+
 ## ✨ Features
 
 - ⚡ **Realtime Messaging** via Socket.IO
@@ -140,12 +148,6 @@ alfa-chat/
   - Repeated animated logo background on register page  
   - Conditional footer display  
   - Dynamic layout adjustment when server banner is visible
- 
----
-
-## 🌍 Live Demo
-
-[🔗 Visit Alfa Chat Live](https://alfa-chat.netlify.app) <!-- Replace this with your actual deployed URL -->
 
 ---
 
