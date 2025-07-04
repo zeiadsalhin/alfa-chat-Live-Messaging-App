@@ -49,6 +49,7 @@ npm run dev
 
 ## 🧩 Folder Structure
 
+```bash
 alfa-chat/
 ├── public/
 │   └── index.html
@@ -92,7 +93,7 @@ alfa-chat/
 ├── tsconfig.json
 ├── README.md
 └── .gitignore
-
+```
 ---
 
 ## ✅ Completed Features
