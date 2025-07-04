@@ -50,7 +50,7 @@ const ChatInput = ({
   };
 
   return (
-    <div className="flex items-center gap-2 bg-zinc-700 px-4 py-2 mx-2 rounded-xl shadow-md">
+    <div className="sticky bottom-0 z-10 flex items-center gap-2 bg-zinc-700 px-4 py-2 mx-2 rounded-xl shadow-md">
       {/* Placeholder for emoji button */}
       <button className="text-gray-400 hover:text-white">
         😊

@@ -7,6 +7,7 @@ import { ChatMessage } from '../types/message';
 type Props = {
   messages: ChatMessage[];
   userId: string;
+  isServerOnline: boolean;
 };
 
 // Formats the date label for message timestamps
@@ -28,7 +29,7 @@ const formatDateLabel = (timestamp: number) => {
   });
 };
 
-const ChatWindow = ({ messages, userId }: Props) => {
+const ChatWindow = ({ messages, userId, isServerOnline }: Props) => {
   const [unreadDividerVisible, setUnreadDividerVisible] = useState(true);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const endRef = useRef<HTMLDivElement | null>(null);
@@ -68,28 +69,35 @@ useEffect(() => {
 }, [messages, lastSeen, userId]);
 
 
-  // Handle scroll to bottom behavior
+  // Handle scroll to bottom behavior with timeout to avoid conflicts with user scrolling
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+  const container = containerRef.current;
+  if (!container) return;
 
-    const isInitialLoad = prevMessagesLength.current === 0 && messages.length > 0;
+  const isInitialLoad = prevMessagesLength.current === 0 && messages.length > 0;
+  const newMessagesAdded = messages.length > prevMessagesLength.current;
 
-    // Check if the user is near the bottom of the chat window
-    // If they are, we scroll to the end when new messages arrive
-    const isNearBottom =
-      container.scrollHeight - container.scrollTop - container.clientHeight < 200;
+  const isNearBottom =
+    container.scrollHeight - container.scrollTop - container.clientHeight < 500;
 
-      // Scroll to the end if it's the initial load or if user is near bottom
-    // This ensures a smooth experience when new messages arrive
-    if (isInitialLoad) {
-      endRef.current?.scrollIntoView({ behavior: 'auto' });
-    } else if (messages.length > prevMessagesLength.current && isNearBottom) {
-      endRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }
+  if (isInitialLoad || (newMessagesAdded && isNearBottom)) {
+    // Add 300ms delay before scroll
+    const timeout = setTimeout(() => {
+      requestAnimationFrame(() => {
+        container.scrollTo({
+          top: container.scrollHeight,
+          behavior: isInitialLoad ? 'auto' : 'smooth',
+        });
+      });
+    }, 300);
 
-    prevMessagesLength.current = messages.length;
-  }, [messages]);
+    return () => clearTimeout(timeout);
+  }
+
+  prevMessagesLength.current = messages.length;
+}, [messages]);
+
+
 
   // Hide unread divider 2s after user scrolls to bottom
   useEffect(() => {
@@ -128,7 +136,7 @@ useEffect(() => {
   return (
     <div
       ref={containerRef}
-      className="flex-1 overflow-y-auto max-h-[calc(100svh-17.5vh)] md:min-h-[91dvh] px-4 py-2 bg-zinc-900 rounded border border-zinc-700 space-y-2"
+      className={`flex-1 overflow-y-auto ${isServerOnline ? 'max-h-[calc(100svh-14vh)]' : 'max-h-[calc(100svh-17.5vh)]'}  md:min-h-[91dvh] px-4 py-2 bg-zinc-900 rounded border border-zinc-700 space-y-2`}
     >
       {/* Render messages */}
       {/* use a map to iterate over messages and render each one */}

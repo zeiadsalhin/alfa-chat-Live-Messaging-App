@@ -262,7 +262,7 @@ const ChatRoom = ({ isServerOnline = true }: { isServerOnline?: boolean }) => {
         userId={userId}
         onClearChat={clearChat}
       />
-      <ChatWindow messages={messages} userId={userId} />
+      <ChatWindow messages={messages} userId={userId} isServerOnline={isServerOnline} />
       <ChatInput
         value={message}
         onChange={setMessage}
