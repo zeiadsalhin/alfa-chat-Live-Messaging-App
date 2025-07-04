@@ -49,8 +49,8 @@ function App() {
     <Middleware>
       {/* Fixed Server Offline Banner */}
       {!isServerOnline && (
-        <div className="fixed top-0 left-0 w-full z-50 bg-red-600/50 text-white text-center py-2 text-sm font-medium shadow-mda">
-          ⚠️ Cannot connect to the server at the moment.
+        <div className="fixed top-0 left-0 w-full z-50 bg-red-600/50 text-white text-center py-2 text-sm font-light">
+          <p>⚠️ Cannot connect to the server at the moment. Retrying...</p>
         </div>
       )}
 
