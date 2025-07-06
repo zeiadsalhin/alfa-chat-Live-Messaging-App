@@ -10,7 +10,7 @@ A modern, fast, and secure chat application built with **React**, **Socket.IO**,
 
 [🔗 Visit Here](https://alfa-chat.netlify.app) <!-- Replace this with your actual deployed URL -->
 
-Note: Please wait 10s if server connection warning appeared for first time (due to render.com init), Thank you
+Note: Please wait 10-20s if server connection warning appeared for first time (due to render.com init), Thank you
 
 ---
 
