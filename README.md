@@ -21,6 +21,7 @@ Note: Please wait 10-20s if server connection warning appeared for first time (d
 - 📞 **Voice Message Support**
 - 💬 **Typing Indicator** and **Message Status** (Sent, Delivered, Seen)
 - 🔁 **Persistent Chat History** stored in localStorage
+- 🌐 **i18n Language Detection** with Arabic + English support
 - 📱 **Responsive Design** (Desktop & Mobile)
 - ✅ **Protected Routes** and Middleware
 - 📡 **Connection Monitoring** with Offline Banner
@@ -35,6 +36,7 @@ Note: Please wait 10-20s if server connection warning appeared for first time (d
 - ⚛️ **React 19** – Frontend Framework with Vite
 - 🔌 **Socket.IO** – Real-time WebSocket Communication
 - 🧠 **localStorage** – Lightweight Client-side DB
+- 🌍 **i18next** – Internationalization & Language Detection
 - 🎨 **Tailwind CSS v4** – Styling & UI Components
 - 🎙 **MediaRecorder API** – Voice Recording Support (Upcoming)
 - 🧪 **Custom Middleware** – Authentication & Route Guard
@@ -76,6 +78,9 @@ alfa-chat/
 │   │
 │   ├── lib/                     # Library utilities (socket instance)
 │   │   └── socket.ts
+│   │
+│   │── i18n/                    # Internationalization AR-EN
+│   │   └── index.tsx
 │   │
 │   ├── middleware/              # Route guards
 │   │   └── Middleware.tsx
@@ -127,6 +132,9 @@ alfa-chat/
 
 - 🗑 **Clear Chat & Edit Mode**  
   Ability to delete selected chats or clear entire chat room history.
+
+- 🌐 **Internationalization (i18n)**  
+  Language auto-detection with fallback to en, normalizes codes like ar-AE → ar to avoid issues in translations.
 
 - 🎨 **Modern UI Design**  
   Clean and responsive layout with Tailwind CSS v4.

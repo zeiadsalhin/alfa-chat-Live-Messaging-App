@@ -5,6 +5,8 @@ import { ChatMessage } from '../types/message';
 // It handles unread message dividers, date separators, and scroll behavior
 // It also shows message status (seen, delivered, sent) and formats timestamps
 type Props = {
+  t: (key: string) => string;
+  isRTL: boolean;
   messages: ChatMessage[];
   userId: string;
   isServerOnline: boolean;
@@ -12,14 +14,14 @@ type Props = {
 
 // Formats the date label for message timestamps
 // It returns ex: "Today" for today's messages, "Yesterday" for yesterday's messages,
-const formatDateLabel = (timestamp: number) => {
+const formatDateLabel = (timestamp: number, t: (key: string) => string) => {
   const msgDate = new Date(timestamp);
   const today = new Date();
   const yesterday = new Date();
   yesterday.setDate(today.getDate() - 1);
 
-  if (msgDate.toDateString() === today.toDateString()) return 'Today';
-  if (msgDate.toDateString() === yesterday.toDateString()) return 'Yesterday';
+  if (msgDate.toDateString() === today.toDateString()) return t('chat.today');
+  if (msgDate.toDateString() === yesterday.toDateString()) return t('chat.yesterday');
 
   return msgDate.toLocaleDateString(undefined, {
     weekday: 'short',
@@ -29,7 +31,7 @@ const formatDateLabel = (timestamp: number) => {
   });
 };
 
-const ChatWindow = ({ messages, userId, isServerOnline }: Props) => {
+const ChatWindow = ({ t, isRTL, messages, userId, isServerOnline }: Props) => {
   const [unreadDividerVisible, setUnreadDividerVisible] = useState(true);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const endRef = useRef<HTMLDivElement | null>(null);
@@ -136,7 +138,8 @@ useEffect(() => {
   return (
     <div
       ref={containerRef}
-      className={`flex-1 overflow-y-auto ${isServerOnline ? 'max-h-[calc(100svh-14vh)]' : 'max-h-[calc(100svh-17.5vh)]'}  md:min-h-[91dvh] px-4 py-2 bg-zinc-900 rounded border border-zinc-700 space-y-2`}
+      className={`flex-1 overflow-y-auto ${isServerOnline ? 'max-h-[calc(100svh-14vh)]' : 'max-h-[calc(100svh-17.5vh)]'} md:min-h-[91dvh] px-4 py-2 bg-zinc-900 rounded border border-zinc-700 space-y-2`}
+      dir={isRTL ? 'rtl' : 'ltr'}
     >
       {/* Render messages */}
       {/* use a map to iterate over messages and render each one */}
@@ -144,7 +147,7 @@ useEffect(() => {
       {messages.map((msg, i) => {
         const isMe = msg.userId === userId;
         const msgDate = new Date(msg.timestamp);
-        const dateLabel = formatDateLabel(msg.timestamp);
+        const dateLabel = formatDateLabel(msg.timestamp, t);
         const showDateSeparator = dateLabel !== lastDate;
         if (showDateSeparator) lastDate = dateLabel;
 
@@ -172,14 +175,14 @@ useEffect(() => {
                   unreadDividerVisible ? 'opacity-100' : 'opacity-0'
                 }`}
               >
-                Unread messages ({unreadCount})
+                {t('chat.unreadMessages').replace('{count}', unreadCount.toString())}
               </div>
             )}
 
             {/* Message Bubble */}
             <div className={`flex flex-col ${isMe ? 'items-end' : 'items-start'}`}>
               <span className="text-xs text-gray-400 mb-1">
-                {isMe ? 'You' : msg.userId}
+                {isMe ? t('chat.you') : msg.userId}
               </span>
 
               <div
@@ -194,11 +197,11 @@ useEffect(() => {
                 ) : (
                   <audio controls className="w-full mt-1">
                     <source src={msg.content} type="audio/webm" />
-                    Your browser does not support the audio element.
+                    {t('chat.audioNotSupported')}
                   </audio>
                 )}
 
-                <div className="flex justify-end items-center mt-1 text-[10px] space-x-1">
+                <div dir='ltr' className="flex justify-end items-center mt-1 text-[10px] space-x-1">
                   <span className="text-gray-300">
                     {msgDate.toLocaleTimeString([], {
                       hour: '2-digit',
@@ -214,7 +217,7 @@ useEffect(() => {
                     ) : msg.status === 'delivered' ? (
                       <span className="text-gray-400">✓</span>
                     ) : (
-                      <span className="text-gray-400">Sent</span>
+                      <span className="text-gray-400">{t('chat.sent')}</span>
                     )}
                   </div>
                 )}

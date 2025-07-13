@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import socket from '../lib/socket';
 import { useRecorder } from '../hooks/useRecorder';
 import { ChatMessage } from '../types/message';
@@ -12,10 +13,12 @@ import {
   // AudioControls,
 } from '../components/Layout';
 
-// ChatRoom component represents a single chat room
+// ChatRoom component represents a single chat room with i18n support
 // It handles joining the room, sending messages, receiving updates and managing chat history
 // It also manages user typing indicators, online users, and message statuses
 const ChatRoom = ({ isServerOnline = true }: { isServerOnline?: boolean }) => {
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language.includes('ar');
   const { roomId } = useParams<{ roomId: string }>();
   const navigate = useNavigate();
 
@@ -255,6 +258,8 @@ const ChatRoom = ({ isServerOnline = true }: { isServerOnline?: boolean }) => {
   return (
     <div className={`flex flex-col ${isServerOnline ? 'min-h-[calc(100svh-0vh)] md:min-h-[100dvh]' : 'min-h-[calc(100svh-5vh)] md:min-h-[96dvh]'} py-2 gap-2 bg-gray-900a text-white`}>
       <ChatHeader
+        t={t}
+        isRTL={isRTL}
         roomId={roomId!}
         onBack={handleBack}
         typingUser={typingUser}
@@ -262,8 +267,10 @@ const ChatRoom = ({ isServerOnline = true }: { isServerOnline?: boolean }) => {
         userId={userId}
         onClearChat={clearChat}
       />
-      <ChatWindow messages={messages} userId={userId} isServerOnline={isServerOnline} />
+      <ChatWindow t={t} isRTL={isRTL} messages={messages} userId={userId} isServerOnline={isServerOnline} />
       <ChatInput
+        t={t}
+        isRTL={isRTL}
         value={message}
         onChange={setMessage}
         onSend={handleSendMessage}

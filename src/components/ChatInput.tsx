@@ -3,6 +3,8 @@ import socket from '../lib/socket';
 import { Send, Mic } from 'lucide-react'; 
 
 type ChatInputProps = {
+  t: (key: string) => string;
+  isRTL: boolean;
   value: string;
   onChange: (val: string) => void;
   onSend: () => void;
@@ -15,6 +17,8 @@ type ChatInputProps = {
 // It handles typing indicators and focuses the input on mount
 // It also disables the send button when the input is empty
 const ChatInput = ({
+  t,
+  isRTL,
   value,
   onChange,
   onSend,
@@ -50,29 +54,32 @@ const ChatInput = ({
   };
 
   return (
-    <div className="sticky bottom-0 z-10 flex items-center gap-2 bg-zinc-700 px-4 py-2 mx-2 rounded-xl shadow-md">
-      {/* Placeholder for emoji button */}
-      <button className="text-gray-400 hover:text-white">
-        😊
-      </button>
+    <div
+      className={`sticky bottom-0 z-10 flex items-center gap-2 bg-zinc-700 px-4 py-2 mx-2 rounded-xl shadow-md ${
+        isRTL ? 'rtl' : 'ltr'
+      }`}
+      dir={isRTL ? 'rtl' : 'ltr'}
+    >
+      {/* Emoji Button */}
+      <button className="text-gray-400 hover:text-white">😊</button>
 
+      {/* Input Area */}
       <textarea
-          ref={inputRef}
-          className="flex-1 bg-transparent text-white placeholder-gray-400 outline-none px-2 py-2 resize-none overflow-y-auto max-h-48"
-          placeholder="Type a message"
-          value={value}
-          onChange={handleInputChange}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault(); // prevent newline
-              if (canSend) onSend();
-            }
-          }}
-          rows={1}
-        />
+        ref={inputRef}
+        className="flex-1 bg-transparent text-white placeholder-gray-400 outline-none px-2 py-2 resize-none overflow-y-auto max-h-48"
+        placeholder={t('chat.typeMessage')}
+        value={value}
+        onChange={handleInputChange}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            if (canSend) onSend();
+          }
+        }}
+        rows={1}
+      />
 
-
-      {/* Right side button: mic or send */}
+      {/* Send / Mic Button */}
       {canSend ? (
         <button
           onClick={onSend}
@@ -81,7 +88,8 @@ const ChatInput = ({
           <Send className="w-5 h-5" />
         </button>
       ) : (
-        <button disabled
+        <button
+          disabled
           onClick={() => socket.emit('typing', { roomId, userId })}
           className="text-gray-400 hover:text-white"
         >

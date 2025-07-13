@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MessageSquareDashed } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 // StoredChatsPage displays a list of stored chat rooms
 // It allows users to view, select, and delete chat rooms
@@ -22,6 +23,8 @@ const StoredChatsPage = () => {
   const [selectedChats, setSelectedChats] = useState<Set<string>>(new Set());
   const [editMode, setEditMode] = useState(false);
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language.includes('ar');
 
   // Load stored chats from localStorage on component mount
   // It retrieves chat history, maps it to a structured format, and sets it in state 
@@ -38,7 +41,7 @@ const StoredChatsPage = () => {
           const last = messages[messages.length - 1];
           mapped[roomId] = {
             roomId,
-            lastMessage: last.type === 'audio' ? '🎤 Voice message' : last.content,
+            lastMessage: last.type === 'audio' ? '🎤 ' + t('stored.voiceMessage') : last.content,
             timestamp: last.timestamp,
           };
         }
@@ -46,7 +49,7 @@ const StoredChatsPage = () => {
 
       setChats(mapped);
     }
-  }, []);
+  }, [t]);
 
   // Handles click on a chat room
   // If in edit mode, it toggles selection of the chat room
@@ -99,33 +102,35 @@ const StoredChatsPage = () => {
 
 
   return (
-    <div className="min-h-[calc(100svh-10vh)] md:min-h-[91dvh] bg-zinc-900 text-white">
+    <div
+      className={`min-h-[calc(100svh-10vh)] md:min-h-[91dvh] bg-zinc-900 text-white ${isRTL ? 'rtl' : 'ltr'}`}
+      dir={isRTL ? 'rtl' : 'ltr'}
+    >
       {/* Header */}
       <div className="p-4 border-b border-zinc-800 bg-zinc-900 sticky top-0 z-10 flex justify-between items-center">
-        <h1 className="text-2xl font-semibold">Chats</h1>
+        <h1 className="text-2xl font-semibold">{t('stored.chats')}</h1>
         <div className="flex items-center gap-2">
           {hasChats && (
             <button
               className="text-sm text-zinc-300 hover:text-white transition px-2 py-1"
               onClick={toggleEditMode}
             >
-              {editMode ? 'Cancel' : 'Edit'}
+              {editMode ? t('stored.cancel') : t('stored.edit')}
             </button>
           )}
           <button
             className="text-sm text-red-400 hover:text-red-300 transition px-2 py-1"
             onClick={handleLogout}
           >
-            Logout
+            {t('stored.logout')}
           </button>
         </div>
       </div>
 
-
       {!hasChats ? (
         <div className="p-6 text-center text-zinc-400 space-y-4 flex flex-col items-center justify-center">
           <MessageSquareDashed size={64} className="text-zinc-500 mb-2" />
-          <p className="text-sm">No chats yet.</p>
+          <p className="text-sm">{t('stored.noChats')}</p>
         </div>
       ) : (
         <>
@@ -158,10 +163,16 @@ const StoredChatsPage = () => {
                     />
                     <div className="flex-1">
                       <div className="flex justify-between items-center">
-                        <div className="font-medium text-white truncate">{chat.roomId}</div>
-                        <div className="text-xs text-gray-400">{formatTime(chat.timestamp)}</div>
+                        <div className="font-medium text-white truncate">
+                          {chat.roomId}
+                        </div>
+                        <div dir='ltr' className="text-xs text-gray-400">
+                          {formatTime(chat.timestamp)}
+                        </div>
                       </div>
-                      <div className="text-sm text-gray-400 max-w-[17rem] truncate">{chat.lastMessage}</div>
+                      <div className="text-sm text-gray-400 max-w-[17rem] truncate">
+                        {chat.lastMessage}
+                      </div>
                     </div>
                   </li>
                 );
@@ -174,7 +185,8 @@ const StoredChatsPage = () => {
                 className="w-full bg-red-600/60 hover:bg-red-500 text-white py-2 rounded"
                 onClick={handleDeleteSelected}
               >
-                Delete {selectedChats.size} Chat{selectedChats.size > 1 ? 's' : ''}
+                {t('stored.delete')} {selectedChats.size}{' '}
+                {t('stored.chat', { count: selectedChats.size })}
               </button>
             </div>
           )}
@@ -185,7 +197,7 @@ const StoredChatsPage = () => {
         className="bg-zinc-600 px-4 py-2 rounded hover:bg-zinc-500 text-white text-center mx-auto justify-center flex mb-4 mt-2"
         onClick={() => navigate('/join')}
       >
-        {hasChats ? 'New' : 'Start a'} Chat
+        {hasChats ? t('stored.newChat') : t('stored.startChat')}
       </button>
     </div>
   );

@@ -1,0 +1,55 @@
+{
+  "server": {
+     "offline": "⚠️ Cannot connect to the server at the moment. Retrying..."
+  }, 
+  "register": {
+    "username": "Enter your Username",
+    "placeholder": "e.g. user123",
+    "continue": "Continue"
+  },
+  "stored": {
+    "chats": "Chats",
+    "edit": "Edit",
+    "cancel": "Cancel",
+    "logout": "Logout",
+    "noChats": "No chats yet.",
+    "voiceMessage": "Voice message",
+    "delete": "Delete",
+    "chat": "Chat",
+    "chat_plural": "Chats",
+    "startChat": "Start a Chat",
+    "newChat": "New Chat"
+  },
+  "join": {
+    "title": "Join a Chat",
+    "roomLabel": "Room Name / ID",
+    "placeholder": "Enter Chat Name or Room ID",
+    "button": "Join Room",
+    "errors": {
+      "roomIdRequired": "Room ID is required",
+      "userIdMissing": "Username not found. Please sign in."
+    }
+  },
+  "chat": {
+    "typeMessage": "Type a message",
+    "typing": "{{user}} is typing...",
+    "online": "{{user}} Online",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "unreadMessages": "Unread messages ({{count}})",
+    "you": "You",
+    "sent": "Sent",
+    "audioNotSupported": "Your browser does not support the audio element.",
+    "clear": "Clear",
+    "confirmClear": "Are you sure you want to clear the chat?"
+  },
+  "chatList": {
+    "title": "Chats",
+    "voiceMsg": "🎤 Voice message"
+  },
+  "footer": {
+    "about": "About",
+    "privacy": "Privacy",
+    "terms": "Terms"
+  }
+}
